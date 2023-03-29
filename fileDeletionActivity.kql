@@ -1,11 +1,12 @@
 // high activity of file deletion in a short time on Windows
-let TimeWindow = 5m;
-let Threshold = 10; 
-let FileDeleteEvents = 
-    FileChangeEvents
-    | where ActionType == "Deleted";
+let TimeWindow = 5m; // time window to search for file deletion activity
+let Threshold = 10; // threshold for number of file deletions in the time window
+let FileDeleteEvents =
+    DeviceFileEvents
+    | where ActionType == "Deleted"
+    | where FileName endswith ".txt" or FileName endswith ".docx" or FileName endswith ".pdf"; // filter for specific file types
 FileDeleteEvents
-| summarize FileDeletes = count() by Computer, bin(TimeGenerated, TimeWindow), AccountName, ObjectName
+| summarize FileDeletes = count() by Computer, bin(TimeGenerated, TimeWindow), AccountName, FileName
 | where FileDeletes > Threshold
-| project Computer, TimeGenerated, AccountName, ObjectName, FileDeletes
+| project Computer, TimeGenerated, AccountName, FileName, FileDeletes
 | order by TimeGenerated desc
