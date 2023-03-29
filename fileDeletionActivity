@@ -1,0 +1,11 @@
+// high activity of file deletion in a short time on Windows
+let TimeWindow = 5m;
+let Threshold = 10; 
+let FileDeleteEvents = 
+    FileChangeEvents
+    | where ActionType == "Deleted";
+FileDeleteEvents
+| summarize FileDeletes = count() by Computer, bin(TimeGenerated, TimeWindow), AccountName, ObjectName
+| where FileDeletes > Threshold
+| project Computer, TimeGenerated, AccountName, ObjectName, FileDeletes
+| order by TimeGenerated desc
