@@ -9,3 +9,51 @@ Alert Generation:	Do you need an alert for each event?,	Do you want to configure
 Event Grouping:	Are you okay with a limit of 30 events?,	Do you want to configure the event grouping?
 Rule Creation:	Are you okay with the same creation process as regular rules?,	Do you want to define the rule yourself?
 Limitations:	Can you work within the limit of 50 rules per customer and with log sources that have an ingestion delay of less than 12 hours?, Do you prefer no specific limitations?
+
+
+Examples:
+
+ NRT Rule:
+{
+  "name": "NRT_Rule_Example",
+  "description": "Detects login failures every minute",
+  "query": "SigninLogs | where ResultType != 0",
+  "queryFrequency": "1M",
+  "queryPeriod": "1M",
+  "triggerOperator": "GreaterThan",
+  "triggerThreshold": 1,
+  "eventGroupingSettings": {
+    "aggregationKind": "SingleAlert"
+  },
+  "severity": "Medium",
+  "enabled": true,
+  "kind": "Scheduled",
+  "alertRuleTemplateName": null,
+  "nearRealTime": true
+}
+
+ Regular Analytic Rule:
+
+{
+  "name": "Regular_Rule_Example",
+  "description": "Detects multiple login failures within an hour",
+  "query": "SigninLogs | where ResultType != 0",
+  "queryFrequency": "1H",
+  "queryPeriod": "1H",
+  "triggerOperator": "GreaterThan",
+  "triggerThreshold": 5,
+  "eventGroupingSettings": {
+    "aggregationKind": "SingleAlert"
+  },
+  "severity": "High",
+  "enabled": true,
+  "kind": "Scheduled",
+  "alertRuleTemplateName": null,
+  "nearRealTime": false
+}
+
+In the NRT rule, the queryFrequency and queryPeriod are set to 1M (1 minute), and nearRealTime is set to true. This means the rule will run every minute.
+
+In the Regular Analytic rule, the queryFrequency and queryPeriod are set to 1H (1 hour), and nearRealTime is set to false. This means the rule will run every hour.
+
+Please note that these are just examples and you should adjust the parameters according to your specific needs. Also, remember to replace the query with your own KQL query. For more detailed information, you can refer to the official Microsoft documentation.
