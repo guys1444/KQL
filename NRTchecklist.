@@ -1,0 +1,11 @@
+A table, that helps you to decide when to create a NRT analytic rule or a regular rule.
+
+Table
+
+NRT Rule,	Regular Analytic Rule,
+Query Interval:	Do you need the rule to run every minute?,	Do you want to schedule the rule at your own interval?
+Ingestion Delay:	Can you work with a two-minute delay?,	Is a five-minute delay acceptable?
+Alert Generation:	Do you need an alert for each event?,	Do you want to configure the alert threshold?
+Event Grouping:	Are you okay with a limit of 30 events?,	Do you want to configure the event grouping?
+Rule Creation:	Are you okay with the same creation process as regular rules?,	Do you want to define the rule yourself?
+Limitations:	Can you work within the limit of 50 rules per customer and with log sources that have an ingestion delay of less than 12 hours?, Do you prefer no specific limitations?
