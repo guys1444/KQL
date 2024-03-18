@@ -1,0 +1,22 @@
+The series_fill_linear() function in KQL (Kusto Query Language) is used to linearly interpolate missing values in a series1. This can be particularly useful in cybersecurity use cases where you might have time-series data with missing values.
+
+Here’s an example use case:
+
+Imagine you are monitoring network traffic data for anomalies. You have time-series data representing the number of requests to a particular server every minute. However, there might be minutes where data is missing due to various reasons (network issues, data collection problems, etc.). This is where series_fill_linear() can be helpful.
+
+You can use series_fill_linear() to fill these missing values based on the linear trend of the surrounding data. This gives you a complete time-series dataset to work with, making it easier to spot anomalies or trends that could indicate a cybersecurity threat.
+
+Here’s a simplified example of how you might use series_fill_linear() in this context:
+
+let data = datatable(arr: dynamic)     
+    [ dynamic([null, 111.0, null, 36.0, 41.0, null, null, 16.0, 61.0, 33.0, null, null])];
+data 
+| project arr,  
+    without_args = series_fill_linear(arr),
+    with_edges = series_fill_linear(arr, double(null), true),
+    wo_edges = series_fill_linear(arr, double(null), false),
+    with_const = series_fill_linear(arr, double(null), true, 3.14159)
+
+In this example, series_fill_linear() is used to fill the null values in the array, which could represent missing network traffic data1.
+
+Please note that this is a simplified example. In a real-world scenario, you would likely be working with much larger datasets and more complex queries.
