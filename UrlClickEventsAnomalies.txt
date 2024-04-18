@@ -12,6 +12,8 @@ Log into Azure Portal: Log into the Azure portal and navigate to your Microsoft 
 Open Log Analytics: In the Microsoft Sentinel workspace, open Log Analytics.
 Write a KQL Query: Write a Kusto Query Language (KQL) query to analyze the UrlClickEvents table. You can use the series_decompose_anomalies() function to detect anomalies in your data. Here’s an example:
 
+In this query, startDate is set to 30 days ago and endDate is set to the current time. The where clause filters the UrlClickEvents for events that occurred between startDate and endDate. The make-series function then creates a series with the count of URL click events per day for this time range. The rest of the query remains the same.
+
 let startDate = ago(30d);
 let endDate = now();
 UrlClickEvents
