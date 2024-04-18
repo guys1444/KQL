@@ -17,6 +17,7 @@ In this query, startDate is set to 30 days ago and endDate is set to the current
 let startDate = ago(30d);
 let endDate = now();
 UrlClickEvents
+| where ActionType != 'ClickAllowed'
 | where TimeGenerated between (startDate .. endDate)
 | make-series ClickCount=count() on TimeGenerated from startDate to endDate step 1d
 | extend (anomalies, score, baseline) = series_decompose_anomalies(ClickCount)
@@ -24,7 +25,6 @@ UrlClickEvents
 | where score > 0.1
 // Only If needed | where anomalies > 0
 | project TimeGenerated, ClickCount, anomalies, score, baseline
-
 
 This query counts the number of URL click events per day (ClickCount=count()), decomposes the series to find anomalies (series_decompose_anomalies(ClickCount)), and then filters for the rows where an anomaly was detected (where anomalies > 0).
 
