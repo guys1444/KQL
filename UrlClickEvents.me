@@ -12,11 +12,12 @@ In the dynamic world of cybersecurity, proactive threat hunting and anomaly dete
 
 5. *Suspicious Redirects*: Attackers might use URL redirects to hide malicious activities. By analyzing the UrlClickEvents table, you can potentially identify suspicious redirect activities.
 
-Now, let's talk about how we can use the UrlClickEvents table in Microsoft Sentinel for threat hunting and anomaly detection. For this, we can leverage the built-in anomaly detection capabilities of Azure Log Analytics, which is the underlying platform for Microsoft Sentinel. Here’s a high-level process:
+Now, let's talk about how we can use the UrlClickEvents table in Microsoft Sentinel for threat hunting and anomaly detection. For this, we can leverage the built-in anomaly detection capabilities of Azure Log Analytics. Here’s a high-level process:
 
 1. Log into Azure Portal: Navigate to your Microsoft Sentinel workspace.
 2. Open Log Analytics: In the Microsoft Sentinel workspace, open Log Analytics.
-3. Write a KQL Query: Write a Kusto Query Language (KQL) query to analyze the UrlClickEvents table. You can use the `series_decompose_anomalies()` function to detect anomalies in your data. Here’s an example:
+3. Write a KQL Query: Write a Kusto Query Language (KQL) query to analyze the UrlClickEvents table. 
+We can use the `series_decompose_anomalies()` function to detect anomalies in your data. Here’s an example:
 
 ```kql
 let startDate = ago(30d);
