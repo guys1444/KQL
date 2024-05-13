@@ -1,0 +1,9 @@
+let CommandLinePatterns = dynamic(["* -e *", "* -en *", "* -ec *", "* -en* *", "* -ep *"]);
+let ExecutableNames = dynamic(["installUtil.exe", "regsvr32.exe", "regasm.exe", "rundll32.exe"]);
+DeviceProcessEvents
+| where Timestamp > ago(7d)
+| where InitiatingProcessCommandLine has_any (CommandLinePatterns) or FileName in (ExecutableNames)
+| project Timestamp, DeviceName, FileName, FolderPath, InitiatingProcessCommandLine
+| order by Timestamp desc
+
+This query will return events from the last 7 days where the command line of the initiating process matches any of the patterns in CommandLinePatterns, or the file name is one of the executables in ExecutableNames. The results are ordered by timestamp in descending order.
