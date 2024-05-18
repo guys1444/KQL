@@ -5,3 +5,16 @@ DeviceProcessEvents
 | where FileName in~ (InitiatingFiles)
 | extend ToLowerProcessCommandLine = tolower(ProcessCommandLine)
 | project ProcessCommandLine, FileName, DeviceName
+
+In this query:
+
+We filter for file creation events (ActionType == "FileCreated").
+We extract the folder name from the full file path.
+The regex "[a-zA-Z0-9]{8}" pattern checks for obfuscated folder names with 8 alphanumeric characters. You can adjust the pattern to match your specific criteria.
+
+DeviceFileEvents
+| where ActionType == "FileCreated"
+| where FileName contains "\\"
+| extend FolderName = tostring(split(FileName, "\\")[-2])
+| where FolderName matches regex "[a-zA-Z0-9]{8}" // Adjust the regex pattern as needed
+| project FolderName, FileName, DeviceName
