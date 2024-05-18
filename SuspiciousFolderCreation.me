@@ -1,0 +1,7 @@
+let Commands = dynamic(['cl system', 'cl security', 'cl application', @'delete shadows /all /quiet', 'list shadows', @'shadowcopy /nointeractive', @'shadowcopy delete']);
+let InitiatingFiles = dynamic(['wevtutil.exe', 'vssadmin.exe', 'wmic.exe', 'bcdedit.exe', 'rundll32.exe']);
+DeviceProcessEvents
+| where ProcessCommandLine contains "wevtutil.exe"
+| where FileName in~ (InitiatingFiles)
+| extend ToLowerProcessCommandLine = tolower(ProcessCommandLine)
+| project ProcessCommandLine, FileName, DeviceName
